@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block body_block %}
+	  <div class="container theme-showcase" role="main">
+
+      <div class="page-header">
+        <h1>Messages</h1>
+      </div>
+
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Time</th>
+                <th>Device</th>
+                <th>Device Type</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+
+ 			  {% for message in messages %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ message.cts|get_date }}</td>
+                <td>{{ devices|get_item:message.sdid }}</td>
+                <td>{{ devices_types|get_item:message.stdid }}</td>
+                <td>{{ message.data }}</td>
+                <td></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+{% endblock %}

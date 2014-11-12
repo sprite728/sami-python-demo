@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block body_block %}
+
+    <div class="container theme-showcase" role="main">
+
+      <div class="page-header">
+        <h1>Devices</h1>
+      </div>
+
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Token</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            {% for device in devices %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ device.name }}</td>
+                    <td>{{ devices_types|get_item:device.dtid }}</td>
+                    <td>---</td>
+                    <!--<td><button type="button" class="btn btn-danger">Delete</button></td>-->
+                </tr>
+
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+	    <p>
+	    	<button type="button" class="btn btn-lg btn-primary"><a href="adddevice">Register Device</a></button>
+	    </p>
+    </div>
+{% endblock %}

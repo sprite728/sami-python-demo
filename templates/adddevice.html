@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block body_block %}
+
+        <div class="container theme-showcase" role="main">
+	    	<div>
+				<form role="form" method="post">
+                  {% csrf_token %}
+				  <div class="form-group">
+				    <label for="deviceName">Device Name</label>
+				    <input class="form-control" id="deviceName" name="deviceName" placeholder="Enter device name">
+				  </div>
+				  <div class="form-group">
+				    <label for="deviceType">Device Type</label>
+				    <select class="form-control" name="deviceType">
+					  {% for k, v in devices_types.items%}
+                        <option value={{ k }}>{{ v }}</option>
+                      {% endfor %}
+					</select>
+				    <p class="help-block">Device types available.</p>
+				  </div>
+				  <div class="form-group">
+				    <label for="optionManifest">Manifest</label>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="optionManifest" id="latestManifest" value="LATEST" checked>
+					    The Latest Manifest available
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="optionManifest" id="deviceManifest" value="DEVICE">
+					    The Default Manifest for the device
+					  </label>
+					</div>
+				  </div>			  
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+	    </div>
+{% endblock %}
