@@ -5,5 +5,5 @@ from django.shortcuts import render_to_response
 
 def home(request):
     context = RequestContext(request)
-    context_dict = {'active': "home"}
-    return render_to_response('index.html', context_dict, context)
+    contextDict = {'active': "home"}
+    return render_to_response('index.html', contextDict, context)

@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from UsersApi import UsersApi
-from samihub import ApiClient
+from samiio import ApiClient
 from python import settings
 from urllib import urlencode
 from models import Profile
@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 import ast
 
 
-def get_self(token):
+def getSelf(token):
     """Get current user from api
 
             Args:
@@ -23,14 +23,14 @@ def get_self(token):
             Returns: User
             """
     #create and build the UsersApi
-    api_client = ApiClient(apiKey=token, apiServer = settings.SAMI_SERVER_URL)
-    users_api = UsersApi(apiClient = api_client)
+    apiClient = ApiClient(apiKey=token, apiServer = settings.SAMI_SERVER_URL)
+    usersApi = UsersApi(apiClient = apiClient)
 
     #get current user
-    user_envelope = users_api.getSelf()
+    userEnvelope = usersApi.self()
 
     #return content of the user_envelope, that is, the current user
-    return user_envelope.data
+    return userEnvelope.data
 
 def login(request):
     """Login user to samsung account service
@@ -85,10 +85,10 @@ def authorized(request):
         token = (data["access_token"])
 
         #get current user
-        samiUser = get_self(token=token)
+        samiUser = getSelf(token=token)
 
-        context_dict = {'active':"home"}
-        response = HttpResponseRedirect('/', context_dict, context)
+        contextDict = {'active':"home"}
+        response = HttpResponseRedirect('/', contextDict, context)
 
         #We will use django built in login funcionality to log in and log out users to the demo site. We shall associate
         #a profile model containing the access_token for the user so we can retrieve each time the user does a request
@@ -122,26 +122,26 @@ def logout(request):
                 """
     context = RequestContext(request)
 
-    context_dict = {'active':"home"}
+    contextDict = {'active':"home"}
     django_logout(request)
 
-    return HttpResponseRedirect('/', context_dict, context)
+    return HttpResponseRedirect('/', contextDict, context)
 
-def get_token_and_id(user):
+def getTokenAndId(user):
     """Retrieve a user id and token for a logged in user
 
                 Args:
                     user: django user model
                 Returns: token: access token string
-                         user_id: samsung user id
+                         userId: samsung user id
                 """
     #retrieve profile based on the django user id (not the samsung id)
     profile = Profile.objects.get(user=user.id)
     token = profile.oauth_token
-    user_id = user.username
-    return token, user_id
+    userId = user.username
+    return token, userId
 
-def login_required(request):
+def loginRequired(request):
     """The server redirects to this view when a user tries to do an action that requieres login
 
                 Args:
@@ -151,6 +151,6 @@ def login_required(request):
 
     context = RequestContext(request)
 
-    context_dict = {'active':"home"}
+    contextDict = {'active':"home"}
 
-    return render_to_response("login.html", context_dict, context)
+    return render_to_response("login.html", contextDict, context)
