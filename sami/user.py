@@ -44,7 +44,7 @@ def login(request):
 
     param = {'client_id':settings.CLIENT_ID, #(required) your app client_id
              'response_type':'code', #(required) we tell the account server we need a code as return value
-             'redirect_uri':settings.SAMI_RETURN_URI, #(optional but recommended) Url callback. Oauth2 server will call our server on this url with
+             'redirect_url':settings.SAMI_RETURN_URI, #(optional but recommended) Url callback. Oauth2 server will call our server on this url with
                                                         #the code parameter. Be sure to have registered this url on http://portal.samihub.com
              'scope':'read,write'  #(Optional) The type of permissions the application is requesting over the user's data, as a comma separated list. For example: read or read,write. If omitted its default value is read,write.
              }
