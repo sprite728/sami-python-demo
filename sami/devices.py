@@ -1,3 +1,4 @@
+import sys
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -8,6 +9,7 @@ from python import settings
 from templateUtils import get_item
 from django.contrib.auth.decorators import login_required
 from user import getTokenAndId
+
 
 @login_required
 def showDevices(request):
@@ -31,6 +33,8 @@ def showDevices(request):
     #get devices types pretty names to show on the html
     deviceTypes = getDeviceTypesForUser(token, userId)
     contextDict = {'active': 'devices', 'count': count, 'devices': devices, 'devicesTypes':deviceTypes}
+
+    #TODO should disable "Register Device" button when navigating to the html page
     return render_to_response("devices.html", contextDict, context)
 
 def getDeviceTypesForUser(token, userId):
@@ -46,10 +50,16 @@ def getDeviceTypesForUser(token, userId):
     usersApi = UsersApi(apiClient = apiClient)
 
     #get device types
-    deviceTypesEnvelope = usersApi.getUserDeviceTypes(userId, includeShared='true')
+    deviceTypesEnvelope = None
+    try:
+        deviceTypesEnvelope = usersApi.getUserDeviceTypes(userId, includeShared='true')
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
 
     #retrieve the devices types from the device types envelope
-    deviceTypes = list(deviceTypesEnvelope.data.deviceTypes)
+    deviceTypes = []
+    if not(deviceTypesEnvelope is None):
+        deviceTypes = list(deviceTypesEnvelope.data.deviceTypes)
 
     #build dict
     deviceTypeDict = {}
@@ -79,8 +89,12 @@ def addDevice(request):
 
     #get devices types dictionary
     deviceTypes = getDeviceTypesForUser(token, userId)
-    contextDict = {'active': 'devices', 'devicesTypes':deviceTypes}
 
+    if not deviceTypes:
+        print "addDevice: got empty device type list. call showDevices() again  and early return"
+        return showDevices(request)
+    
+    contextDict = {'active': 'devices', 'devicesTypes':deviceTypes}
 
     if (request.method == 'POST'):
         #user wants to add a device
@@ -102,7 +116,6 @@ def addDevice(request):
         #add the device
         deviceApi.addDevice(body)
         return HttpResponseRedirect('/devices')
-
 
     return render_to_response('adddevice.html', contextDict, context)
 
