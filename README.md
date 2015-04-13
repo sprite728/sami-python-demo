@@ -6,15 +6,15 @@ This is a demo developed to showcase what you can do with the SAMI Python SDK. T
 Prerequisites
 -------------
 
- 1 python 2.7.x: https://www.python.org/download/
- 2 pip http://pip.readthedocs.org/en/latest/installing.html
- 3 virtualenvswrapper http://virtualenvwrapper.readthedocs.org/en/latest/install.html
- 4 Django==1.7
- 5 argparse==1.2.1
- 6 httplib2==0.9
- 7 requests==2.4.3
- 8 wsgiref==0.1.2
- 9 SAMI Python SDK https://github.com/samsungsamiio/sami-python
+1. python 2.7.x: https://www.python.org/download/
+2. pip http://pip.readthedocs.org/en/latest/installing.html
+3. virtualenvswrapper http://virtualenvwrapper.readthedocs.org/en/latest/install.html
+4. Django==1.7
+5. argparse==1.2.1
+6. httplib2==0.9
+7. requests==2.4.3
+8. wsgiref==0.1.2
+9. SAMI Python SDK https://github.com/samsungsamiio/sami-python
 
 Installation
 ---------------------
