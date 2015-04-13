@@ -15,6 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SWAGGER_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 SWAGGER_API = os.path.join(SWAGGER_BASE_DIR, 'swagger')
 sys.path.insert(0, os.path.join(SWAGGER_API , "python") )
+sys.path.insert(0, os.path.join(BASE_DIR, "sami/sdk"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
